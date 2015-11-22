@@ -22,9 +22,9 @@ if (mysqli_connect_errno()) {
     exit();
 }
 else {
-#echo "Success";
+echo "Success";
 }
-#create sns client
+# create sns client
 $sns = new Aws\Sns\SnsClient([
     'version' => 'latest',
     'region'  => 'us-east-1'
@@ -54,6 +54,6 @@ $stmt->bind_param("sss",$username,$useremail,$phone);
 if (!$stmt->execute()) {
     echo "Execute failed: (" . $stmt->errno0 . ") " . $stmt->error;
 }
-#printf("%d Row inserted.\n", $stmt->affected_rows);
+# printf("%d Row inserted.\n", $stmt->affected_rows);
 $stmt->close();
 echo "To subscribe your e-mail please click on <a href='index.php'/>index!</a>";
