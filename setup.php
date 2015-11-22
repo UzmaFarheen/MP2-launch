@@ -15,7 +15,7 @@ $result = $rds->describeDBInstances(array(
 ));
 $endpoint = $result['DBInstances'][0]['Endpoint']['Address'];
  echo "============\n". $endpoint . "================\n";
- $link = mysqli_connect($endpoint,"UzmaFarheen","UzmaFarheen","Project") or die("Error " . mysqli_error($link)); 
+ $link = new mysqli($endpoint,"UzmaFarheen","UzmaFarheen","Project") or die("Error " . mysqli_error($link)); 
 if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
  exit();
