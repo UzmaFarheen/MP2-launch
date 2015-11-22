@@ -46,8 +46,7 @@ $result = $sns->subscribe(array(
     'Protocol' => 'email',
     'Endpoint' => $useremail,
 ));
-#echo  "Sub-test".$result;
-#print_r($result);
+
 if (!($stmt = $link->prepare("INSERT INTO ITMO544 (uname,email,phoneforsms) VALUES (?,?,?)"))) {
     echo "Prepare failed: (" . $link->errno . ") " . $link->error;
 }
