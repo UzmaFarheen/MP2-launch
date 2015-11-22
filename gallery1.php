@@ -26,4 +26,11 @@ if (mysqli_connect_errno()) {
 }
 $link->real_query("SELECT * FROM ITMO544");
 $res = $link->use_result();
+echo "Result set order...\n";
+while ($row = $res->fetch_assoc()) {
+echo "<img src =\" " . $row['raws3url'] . "\" /><img src =\"" .$row['finisheds3url'] . "\"/>";
+echo $row['id'] . "Email: " . $row['email'];
+}
+$link->close();
+?>
 ?>
