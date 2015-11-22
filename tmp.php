@@ -1,4 +1,4 @@
-<?php
+?php
 #echo "Hello";
 session_start();
 $useremail=$_SESSION['useremail'];
@@ -29,13 +29,20 @@ $sns = new Aws\Sns\SnsClient([
     'version' => 'latest',
     'region'  => 'us-east-1'
 ]);
-$result1 = $sns->listTopics(array(
+$result1 = $result->listTopics(array(
+    
 ));
 #print_r($result1);
-$topicARN = $result1['Topics'][0]['TopicArn'];
-#echo  $topicARN;
+//to retrieve Topic ARN of ImageTopicSK
+foreach ($result1['Topics'] as $key => $value){
+if(preg_match("/snspicture/", $result1['Topics'][$key]['TopicArn'])){
+$topicARN =$result['Topics'][$key]['TopicArn'];
+}
+}
 $result = $sns->subscribe(array(
+    // TopicArn is required
     'TopicArn' => $topicARN,
+    // Protocol is required
     'Protocol' => 'email',
     'Endpoint' => $useremail,
 ));
@@ -50,5 +57,4 @@ if (!$stmt->execute()) {
 }
 #printf("%d Row inserted.\n", $stmt->affected_rows);
 $stmt->close();
-echo "You have not subscribed yet! please confirm subcription sent to your email, Then click <a href='index.php'/>Index</a>";
-?>
+echo "To subscribe your e-mail please click on <a href='index.php'/>index!</a>";
