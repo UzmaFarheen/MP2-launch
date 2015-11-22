@@ -1,13 +1,13 @@
 !/bin/bash
 declare -a ARR
 
-mapfile -t ARR < <(aws ec2 run-instances --image-id $1 --count $2 --instance-type $3 --security-group-id $4 --subnet-id $5 --key-name $6 --iam-instance-profile $7 --associate-public-ip-address --user-data install-webserver.sh) 
+mapfile -t ARR < <(aws ec2 run-instances --image-id $1 --count $2 --instance-type $3 --security-group-id $4 --subnet-id $5 --key-name $6 --associate-public-ip-address --user-data install-webserver.sh --iam-instance-profile $7) 
 
 #ec2 wait command-
 aws ec2 wait instance-running --instance-ids ${ARR[@]}
 
 #load balancer creation
-aws elb create-load-balancer --load-balancer-name ITMO-544-MP-loadbalancer --listeners "Protocol=HTTP,LoadBalancerPort=80,InstanceProtocol=HTTP,InstancePort=80" --security-group-id $4 --subnet-id $5 
+aws elb create-load-balancer --load-balancer-name ITMO-544-MP-loadbalancer --listeners "Protocol=HTTP,LoadBalancerPort=80,InstanceProtocol=HTTP,InstancePort=80" --security-groups $4 --subnet $5 
 
 #load balancer registration
 aws elb register-instances-with-load-balancer --load-balancer-name ITMO-544-MP-loadbalancer --instance-ids ${ARR[@]} 
@@ -58,7 +58,7 @@ aws sns subscribe --topic-arn $SNSTOPICWATCHARN --protocol email --notification-
 aws rds create-db-subnet-group --db-subnet-group-name ITMO544DBSubnet --subnet-ids subnet-b2b1e999 subnet-42351f1b --db-subnet-group-description 544subnet
 
 #AWS RDS instances creation
-aws rds create-db-instance mp1 --engine MySQL --db-name Project --db-instance-class db.t2.micro --engine MySQL --allocated-storage 5 --master-username UzmaFarheen --master-user-password UzmaFarheen --db-subnet-group-name ITMO544DBSubnet
+aws rds create-db-instance --db-instance-identifier mp1 --engine MySQL --db-name Project --db-instance-class db.t2.micro --engine MySQL --allocated-storage 5 --master-username UzmaFarheen --master-user-password UzmaFarheen --db-subnet-group-name ITMO544DBSubnet
 
 #read replica creation
-aws rds-create-db-instance-read-replica mp1-replica --source-db-instance-identifier-value mp1
+aws rds create-db-instance-read-replica --db-instance-identifier mp1-replica --source-db-instance-identifier mp1
