@@ -48,6 +48,12 @@ aws sns set-topic-attributes --topic-arn $SNSTOPICPICARN --attribute-name Name -
 SNSTOPICWATCHARN=(`aws sns create-topic --name snswatch`)
 aws sns set-topic-attributes --topic-arn $SNSTOPICWATCHARN --attribute-name WatchName --attribute-value snswatch
 
+#Subcribe
+
+EMAILID=unln@hawk.iit.edu
+
+aws sns subscribe --topic-arn $SNSTOPICWATCHARN --protocol email --notification-endpoint $EMAILID
+
 #database subnet creation-
 aws rds create-db-subnet-group --db-subnet-group-name ITMO544DBSubnet --subnet-ids subnet-b2b1e999 subnet-42351f1b --db-subnet-group-description 544subnet
 
