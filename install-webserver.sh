@@ -5,6 +5,7 @@ sudo apt-get install -y apache2 git php5 php5-curl mysql-client curl php5-mysql
 
 git clone https://github.com/UzmaFarheen/ITMO544-localinstance.git
 git clone https://github.com/UzmaFarheen/MP1-PHP.git
+git clone https://github.com/UzmaFarheen/MP2-launch.git
 
 sudo mv ./MP1-PHP/index.html /var/www/html
 sudo mv ./MP1-PHP/page2.html /var/www/html
