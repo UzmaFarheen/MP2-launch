@@ -22,7 +22,7 @@ aws elb create-lb-cookie-stickiness-policy --load-balancer-name ITMO-544-MP-load
 aws autoscaling create-launch-configuration --launch-configuration-name itmo544-launch-config --image-id $1 --count $2 --instance-type $3 --security-groups $4  --key-name $6  --user-data install-webserver.sh --iam-instance-profile $7
 
 #Autoscaling group creation
-aws autoscaling create-auto-scaling-group --auto-scaling-group-name itmo-544-autoscaling --launch-configuration-name itmo544-launch-config --load-balancer-names ITMO-544-MP-loadbalancer  --health-check-type ELB --min-size 3 --max-size 6 --desired-capacity 3 --default-cooldown 600 --health-check-grace-period 120 --vpc-zone-identifier $5 
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name itmo-544-autoscaling --launch-configuration-name itmo544-launch-config --load-balancer-name ITMO-544-MP-loadbalancer  --health-check-type ELB --min-size 3 --max-size 6 --desired-capacity 3 --default-cooldown 600 --health-check-grace-period 120 --vpc-zone-identifier $5 
 
 #AutoScaling Policy-Increase
 
@@ -41,12 +41,12 @@ aws cloudwatch put-metric-alarm --alarm-name Reduce --alarm-description "CPU fal
 #SNS topic for image subscription
 
 SNSTOPICPICARN=(`aws sns create-topic --name snspicture`)
-aws sns set-topic-attributes --topic-arn $SNSTOPICPICARN --attribute-name Name --attribute-value snspicture  
+aws sns set-topic-attributes --topic-arn $SNSTOPICPICARN --attribute-name Policy --attribute-value snspicture  
 
 #SNS topic for cloud watch subscription
 
 SNSTOPICWATCHARN=(`aws sns create-topic --name snswatch`)
-aws sns set-topic-attributes --topic-arn $SNSTOPICWATCHARN --attribute-name WatchName --attribute-value snswatch
+aws sns set-topic-attributes --topic-arn $SNSTOPICWATCHARN --attribute-name Policy --attribute-value snswatch
 
 #Subcribe
 
